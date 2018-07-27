@@ -1,0 +1,6 @@
+site_name: mkcloud
+theme: readthedocs
+
+pages:
+  - Introduction: introduction.md
+  - About: about.md

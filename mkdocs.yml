@@ -3,4 +3,4 @@ theme: readthedocs
 
 pages:
   - Introduction: index.md
-  - About: about.md
+  - Anaconda: anaconda.md

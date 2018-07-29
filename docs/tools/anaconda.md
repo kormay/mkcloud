@@ -1,4 +1,4 @@
-# conda 环境管理
+## conda 环境管理
 ```bash
 # 创建一个名为python34的环境，指定Python版本是3.4（不用管是3.4.x，conda会为我们自动寻找3.4.x中的最新版本）
 conda create --name python34 python=3.4
@@ -15,7 +15,7 @@ conda remove --name python34 --all
 # 查看已安装的环境
 conda info -e
 ```
-# conda 包管理
+## conda 包管理
 ```bash
 conda list
 conda search django
@@ -29,7 +29,7 @@ conda update python  # 假设当前环境是python 3.4, conda会将python升级�
 # 添加Anaconda的TUNA镜像
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
 ```
-# anaconda 安装不存在的包
+## anaconda 安装不存在的包
 ```bash
 anaconda search -t conda mkdocs 
 anaconda show conda-forge/mkdocs

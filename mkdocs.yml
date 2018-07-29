@@ -1,6 +1,10 @@
 site_name: mkcloud
-theme: readthedocs
+#theme: readthedocs
+repo_url: https://github.com/kormay/
+edit_uri: ""
+repo_name: GitHub
 
 pages:
   - Introduction: index.md
-  - Anaconda: anaconda.md
+  - Tools:
+    - Anaconda: tools/anaconda.md

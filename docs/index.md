@@ -1,17 +1,16 @@
-# Welcome to MkDocs
+# markdown的使用示例
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).  
+## Images
+```
+![Screenshot](img/screenshot.png)
+```
+![Screenshot](img/screenshot.png)
 
-## Commands
+## internal link
+Please see the [anaconda](tools/anaconda.md) for more details.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## tables
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell

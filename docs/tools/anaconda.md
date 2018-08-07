@@ -10,7 +10,7 @@ activate python34
 激活环境 for Linux & Mac
 ```bash
 source activate python34
-````
+```
 退出环境 for Windows
 ```bash
 deactivate python34

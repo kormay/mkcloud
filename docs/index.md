@@ -1,4 +1,4 @@
-# markdown的使用示例
+> 本文档采用python的库mkdocs配合markdown完成
 
 ## Images
 ```text

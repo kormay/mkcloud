@@ -5,7 +5,7 @@ edit_uri: ""
 repo_name: GitHub
 
 pages:
-  - 文档介绍: index.md
+  - 介绍: index.md
   - Tools:
       - Anaconda: tools/anaconda.md
   - MySql:

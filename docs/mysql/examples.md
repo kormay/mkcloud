@@ -6,6 +6,7 @@ select distinct(server) from record where type = 'GD0001';
 ```
 
 其中:  
+
 - record表中的数据大概有2000万条左右 
 - 字段type的值为GD0001的记录大概有500万，而这段SQL执行的结果大概有30多条
 - type字段上有索引
@@ -13,12 +14,6 @@ select distinct(server) from record where type = 'GD0001';
 
 在以上条件下，这条SQL语句的执行时间超过一分钟。
 不难发现，得到去重后server字段的值是导致性能问题的根本原因。
-
-要解决这个问题不难，因为server字段值的范围相对是稳定的，可以想办法把值提取出来放到一个冗余的表里面，并且通过某种机制让这个新表的值与原表中server字段的值保持同步，查的时候查这个新表， 这样访问速度缓慢的问题也就迎刃而解了。
-
-显然，使用这种方案解决问题需要不小的工作量。要使解决这个问题的成本最小化，最好的方法是优化这个查询，假如原本这个查询运行的时间是一分钟，那么能使运行这个查询的时间下降至一秒，问题也算解决。
-
-这个目标看起来似乎难以实现，事实上却是可以做到的。
 
 因为这段SQL语句的筛选条件type字段有索引，所以整个SQL语句的逻辑查询步骤大致如下
 
@@ -34,12 +29,12 @@ select distinct(server) from record where type = 'GD0001';
 针对这段SQL语句优化的覆盖索引创建语句如下
 
 ```sql
-create index index_type_server on user_record(type, server);
+create index index_type_server on record(type, server);
 ```
 
 原sql语句：
 ```sql
-select distinct(server) from record where type = 'GD0001'
+select distinct(server) from record where type = 'GD0001';
 ```
 
 所有的查询步骤在索引中就能完成，而不用再去源数据表里提取数据，也就是在没建立这个索引时进行查询的第二步被消除了，因此查询的性能极大幅度的得到了提升。

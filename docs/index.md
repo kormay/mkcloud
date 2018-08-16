@@ -1,25 +1,3 @@
-> 本文档采用python的库mkdocs配合markdown完成
-
-## Images
-```text
-![Screenshot](img/screenshot.png)
-```
-![Screenshot](img/screenshot.png)
-
-## internal link
-```text
-Please see the [anaconda](tools/anaconda.md) for more details.
-```
-Please see the [anaconda](tools/anaconda.md) for more details.
-
-## tables
-```text
-First Header | Second Header | Third Header
------------- | ------------- | ------------
-Content Cell | Content Cell  | Content Cell
-Content Cell | Content Cell  | Content Cell
-```
-First Header | Second Header | Third Header
------------- | ------------- | ------------
-Content Cell | Content Cell  | Content Cell
-Content Cell | Content Cell  | Content Cell
+# 介绍
+> 本文档采用python库mkdocs配合markdown完成  
+> mkdocs文档请戳这里 [mkdocs官方文档](https://www.mkdocs.org/)

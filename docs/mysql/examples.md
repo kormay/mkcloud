@@ -20,7 +20,6 @@ select distinct(server) from record where type = 'GD0001';
 这个目标看起来似乎难以实现，事实上却是可以做到的。
 
 
-
 ```sql
 select distinct(server) from record where type = 'GD0001';
 ```

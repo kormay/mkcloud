@@ -11,6 +11,6 @@ pages:
   - MySql:
       - Engine: mysql/engine.md
       - Indexing: mysql/indexing.md
-      - Mysql查询优化事例: mysql/examples.md
+      - Mysql查询优化示例: mysql/examples.md
   - OS:
       - Process and Thread and Coroutine: os/ProcessThreadCoroutine.md

@@ -6,11 +6,11 @@ repo_name: GitHub
 
 pages:
   - 介绍: index.md
-  - Tools:
+  - 工具:
       - Anaconda: tools/anaconda.md
   - MySql:
-      - Engine: mysql/engine.md
-      - Indexing: mysql/indexing.md
+      - 引擎: mysql/engine.md
+      - 索引: mysql/indexing.md
       - Mysql查询优化示例: mysql/examples.md
-  - OS:
-      - Process and Thread and Coroutine: os/ProcessThreadCoroutine.md
+  - 操作系统:
+      - 进程线程和协程: os/ProcessThreadCoroutine.md

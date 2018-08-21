@@ -16,3 +16,5 @@ nav:
       - cup个数、核心数、线程数之间的关系: os/CpuThread.md
       - cup使用率和负载: os/CpuLoadAverage.md
       - 进程线程和协程: os/ProcessThreadCoroutine.md
+  - Redis:
+      - Redis的内存优化: redis/optimize.md

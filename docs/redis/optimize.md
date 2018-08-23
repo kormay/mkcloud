@@ -159,3 +159,107 @@ Redis自身实现的字符串结构有如下特点:
 调整配置后hash类型内部编码方式变为ziplist，相比字符串更省内存且支持属性的部分操作。
 
 ## 五. 编码优化
+#### 1.了解编码
+所谓编码就是具体使用哪种底层数据结构来实现。  
+编码不同将直接影响数据的内存占用和读写效率。  
+使用`object encoding key`命令获取编码类型。
+```bash
+redis> set str:1 hello
+OK
+redis> object encoding str:1
+"embstr" // embstr编码字符串
+redis> lpush list:1 1 2 3
+(integer) 3
+redis> object encoding list:1
+"ziplist" // ziplist编码列表
+```
+
+Redis针对每种数据类型(type)可以采用至少两种编码方式来实现，下表表示type和encoding的对应关系。
+
+类型   | 编码方式 | 数据结构
+----  | ------- | ---- 
+<br>string|	raw<br>embstr<br>int | 动态字符串编码<br>优化内存分配的字符串编码<br>整数编码
+hash  |hashtable<br>ziplist | 散列表编码<br>压缩列表编码
+<br>list  |linkedlist<br>ziplist<br>quicklist|双向链表编码<br>压缩列表编码<br>3.2版本新的列表编码
+set	|hashtable<br>intset |散列表编码<br>整数集合编码
+zset| skiplist<br>ziplist  |跳跃表编码<br>压缩列表编码
+
+#### 2.控制编码类型
+编码类型转换在Redis写入数据时自动完成，这个转换过程是不可逆的，转换规则只能从小内存编码向大内存编码转换。例如：
+
+```bash
+redis> lpush list:1 a b c d
+(integer) 4 //存储4个元素
+redis> object encoding list:1
+"ziplist" //采用ziplist压缩列表编码
+redis> config set list-max-ziplist-entries 4
+OK //设置列表类型ziplist编码最大允许4个元素
+redis> lpush list:1 e
+(integer) 5 //写入第5个元素e
+redis> object encoding list:1
+"linkedlist" //编码类型转换为链表
+redis> rpop list:1
+"a" //弹出元素a
+redis> llen list:1
+(integer) 4 // 列表此时有4个元素
+redis> object encoding list:1
+"linkedlist" //编码类型依然为链表，未做编码回退
+```
+list-max-ziplist-entries参数用来决定列表长度在多少范围内使用ziplist编码。当然还有其它参数控制各种数据类型的编码
+
+类型|编码|决定条件
+--- | --- | ---
+hash|ziplist|1.value最大空间(字节)<=hash-max-ziplist-value<br>2.field个数<=hash-max-ziplist-entries
+hash|hashtable|不满足以上任意条件
+list|ziplist|1.value最大空间(字节)<=list-max-ziplist-value<br>2.链表长度<=list-max-ziplist-entries
+list|linkedlist|不满足以上任意条件
+list|quicklist|3.2版本新编码: 废弃list-max-ziplist-entries和list-max-ziplist-entries<br> 使用新配置: list-max-ziplist-size:表示最大压缩空间或长度,最大空间使用[-5-1]范围配置，默认-2表示8KB,正整数表示最大压缩长度<br>list-compress-depth:表示最大压缩深度，默认=0不压缩
+set|intset|1.元素必须为整数<br>2.集合长度<=set-max-intset-entries
+set	|hashtable|不满足以上任意条件
+zset|ziplist|1.value最大空间(字节)<=zset-max-ziplist-value<br>2.有序集合长度<=zset-max-ziplist-entries
+zset|skiplist|不满足以上任意条件
+
+
+理解编码转换流程和相关配置之后，可以使用config set命令设置编码相关参数来满足使用压缩编码的条件。对于已经采用非压缩编码类型的数据如hashtable,linkedlist等，设置参数后即使数据满足压缩编码条件，Redis也不会做转换，需要重启Redis重新加载数据才能完成转换。
+
+>1）针对性能要求较高的场景使用ziplist，建议长度不要超过1000，每个元素大小控制在512字节以内。  
+>2）命令平均耗时使用info Commandstats命令获取，包含每个命令调用次数，总耗时，平均耗时，单位微秒。
+
+
+## 六 控制key的数量
+当使用Redis存储大量数据时，通常会存在大量键，过多的键同样会消耗大量内存。使用Redis时不要进入一个误区，大量使用get/set这样的API，把Redis当成Memcached使用。对于存储相同的数据内容利用Redis的数据结构降低外层键的数量，也可以节省大量内存。
+
+**hash分组控制键规模测试**
+
+数据量|key大小|value大小|string类型占用内存|hash-ziplist类型占用内存|内存降低比例|string:set平均耗时|hash:hset平均耗时
+--- | ---- |------ | ------- | ------- | --- | ----- | ------
+200w|20byte|512byte|1392.64MB|1000.97MB|28.1%|2.13微秒|21.28微秒
+200w|20byte|200byte|596.62MB|399.38MB|33.1%|1.49微秒|16.08微秒
+200w|20byte|100byte|382.99MB|211.88MB|44.6%|1.30微秒|14.92微秒
+200w|20byte|50byte|291.46MB|110.32MB|62.1%|1.28微秒|13.48微秒
+200w|20byte|20byte|246.40MB|55.63MB|77.4%|1.10微秒|13.21微秒
+200w|20byte|5byte|199.93MB|24.42MB|87.7%|1.10微秒|13.06微秒
+
+**以上测试数据说明**
+
+- 同样的数据使用ziplist编码的hash类型存储比string类型节约内存
+- 节省内存量随着value空间的减少，越来越明显。
+- hash-ziplist类型比string类型写入耗时，但随着value空间的减少，耗时逐渐降低。
+- 使用hash重构后节省内存量效果非常明显，特别对于存储小对象的场景，内存只有不到原来的1/5。
+
+**下面分析这种内存优化技巧的关键点：**
+
+- hash类型节省内存的原理是使用ziplist编码，如果使用hashtable编码方式反而会增加内存消耗。
+- ziplist长度需要控制在1000以内，否则由于存取操作时间复杂度在O(n)到O(n2)之间，长列表会导致CPU消耗严重，得不偿失。
+- ziplist适合存储的小对象，对于大对象不但内存优化效果不明显还会增加命令操作耗时。对于大量小对象的存储场景，非常适合使用ziplist编码的hash类型控制键的规模来降低内存。
+- 需要预估键的规模，从而确定每个hash结构需要存储的元素数量。
+- 根据hash长度和元素大小，调整hash-max-ziplist-entries和hash-max-ziplist-value参数，确保hash类型使用ziplist编码。
+
+**带来的问题**
+
+- hash重构后所有的键无法再使用超时(expire)和LRU淘汰机制自动删除，需要手动维护删除。
+- 对于大对象，如1KB以上的对象。使用hash-ziplist结构控制键数量。
+
+不过瑕不掩瑜，对于大量小对象的存储场景，非常适合使用ziplist编码的hash类型控制键的规模来降低内存。
+
+>使用ziplist+hash优化keys后，如果想使用超时删除功能，可以存储每个对象写入的时间，再通过定时任务使用hscan命令扫描数据，找出hash内超时的数据项删除即可。

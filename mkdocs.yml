@@ -20,3 +20,4 @@ nav:
       - Redis的内存优化: redis/optimize.md
   - 算法:
       - two sum: algorithm/two_sum.md
+  - Python:

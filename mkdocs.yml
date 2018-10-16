@@ -14,6 +14,7 @@ nav:
       - 索引: mysql/indexing.md
       - Mysql查询优化示例: mysql/examples.md
       - 数据库排序和应用排序的选择: mysql/sort_by_sql_or_app.md
+      - 一些sql注意事项: mysql/index_demo.md
   - Redis:
       - Redis的内存优化: redis/optimize.md
   - 算法:

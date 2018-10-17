@@ -14,6 +14,7 @@ nav:
       - Mysql查询优化示例: mysql/examples.md
       - 数据库排序和应用排序的选择: mysql/sort_by_sql_or_app.md
       - 一些sql注意事项: mysql/index_demo.md
+      - 一些术语: mysql/huandu.md
       - 锁(一): mysql/lock1.md
       - 锁(二): mysql/lock2.md
       - 一些最佳实践: mysql/some_examples.md

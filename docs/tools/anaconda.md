@@ -3,6 +3,10 @@
 ```bash
 conda create --name python34 python=3.4
 ```
+查看环境列表
+```bash
+conda env list
+```
 激活环境 for Windows
 ```bash
 activate python34

@@ -5,24 +5,24 @@ edit_uri: ""
 repo_name: GitHub
 
 nav:
-  - 介绍: index.md
+  - 介绍: 'index.md'
   - 工具:
-      - Anaconda: tools/anaconda.md
+    - 'Anaconda': 'tools/anaconda.md'
   - MySql:
-      - 引擎: mysql/engine.md
-      - 索引: mysql/indexing.md
-      - Mysql查询优化示例: mysql/examples.md
-      - 数据库排序和应用排序的选择: mysql/sort_by_sql_or_app.md
-      - 一些sql注意事项: mysql/index_demo.md
-      - 一些术语: mysql/huandu.md
-      - 锁(一): mysql/lock1.md
-      - 锁(二): mysql/lock2.md
-      - 一些最佳实践: mysql/some_examples.md
+    - '引擎': 'mysql/engine.md'
+    - '索引': 'mysql/indexing.md'
+    - 'Mysql查询优化示例': 'mysql/examples.md'
+    - '数据库排序和应用排序的选择': 'mysql/sort_by_sql_or_app.md'
+    - '一些sql注意事项': 'mysql/index_demo.md'
+    - '一些术语': 'mysql/huandu.md'
+    - '锁(一)': 'mysql/lock1.md'
+    - '锁(二)': 'mysql/lock2.md'
+    - '一些最佳实践': 'mysql/some_examples.md'
   - Redis:
-      - Redis的内存优化: redis/optimize.md
+    - 'Redis的内存优化': 'redis/optimize.md'
   - 算法:
-      - two sum: algorithm/two_sum.md
+    - 'two sum': 'algorithm/two_sum.md'
   - 操作系统:
-      - cup个数、核心数、线程数之间的关系: os/CpuThread.md
-      - cup使用率和负载: os/CpuLoadAverage.md
-      - 进程线程和协程: os/ProcessThreadCoroutine.md
+    - 'cup个数、核心数、线程数之间的关系': 'os/CpuThread.md'
+    - 'cup使用率和负载': 'os/CpuLoadAverage.md'
+    - '进程线程和协程': 'os/ProcessThreadCoroutine.md'

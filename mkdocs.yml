@@ -22,6 +22,7 @@ nav:
   - '锁(一)': 'mysql/lock1.md'
   - '锁(二)': 'mysql/lock2.md'
   - '一些最佳实践': 'mysql/some_examples.md'
+  - 'mysql执行计划解读': 'mysql/explain.md'
 - Redis:
   - 'Redis的内存优化': 'redis/optimize.md'
 - 算法:

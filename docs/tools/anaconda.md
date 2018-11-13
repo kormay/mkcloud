@@ -1,26 +1,26 @@
 ## conda 环境管理
 创建一个名为python34的环境，指定Python版本是3.4（不用管是3.4.x，conda会为我们自动寻找3.4.x中的最新版本）
-```bash
+```
 conda create --name python34 python=3.4
 ```
 查看环境列表
-```bash
+```
 conda env list
 ```
 激活环境 for Windows
-```bash
+```
 activate python34
 ```
 激活环境 for Linux & Mac
-```bash
+```
 source activate python34
 ```
 退出环境 for Windows
-```bash
+```
 deactivate python34
 ```
 退出环境 for Linux & Mac
-```bash
+```
 source deactivate python34
 ```
 删除一个已有的环境

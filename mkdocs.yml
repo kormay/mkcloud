@@ -8,6 +8,8 @@ nav:
 - 介绍: 'index.md'
 - 工具:
   - 'Anaconda': 'tools/anaconda.md'
+- Pyhton:
+    - 'python语言规范': 'python/standard.md'
 - Linux:
   - 'vim': 'linux/vim.md'
   - 'netstat': 'linux/netstat.md'

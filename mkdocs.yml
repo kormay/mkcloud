@@ -7,6 +7,7 @@ repo_name: GitHub
 nav:
 - 介绍: 'index.md'
 - 工具:
+  - 'Markdown': 'tools/markdown.md'
   - 'Anaconda': 'tools/anaconda.md'
 #- Pyhton:
 #    - 'python语言规范': 'python/standard.md'

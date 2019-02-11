@@ -29,8 +29,8 @@ nav:
   - '数据量很大的表的优化': 'mysql/optimize_bigdata.md'
 - Redis:
   - 'Redis的内存优化': 'redis/optimize.md'
-- 算法:
-  - 'two sum': 'algorithm/two_sum.md'
+#- 算法:
+#  - 'two sum': 'algorithm/two_sum.md'
 - 操作系统:
   - 'cup个数、核心数、线程数之间的关系': 'os/CpuThread.md'
   - 'cup使用率和负载': 'os/CpuLoadAverage.md'
